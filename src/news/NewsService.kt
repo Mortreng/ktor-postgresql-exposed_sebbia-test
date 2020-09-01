@@ -1,7 +1,7 @@
 package com.sebbia.news
 import com.fasterxml.jackson.annotation.JsonIgnore
 import java.lang.Integer.min
-
+//TODO next, this whole file needs some cleanup along with some implementations
 data class Article(
     val id: Int,
     val title: String,

@@ -1,5 +1,5 @@
 package com.sebbia.dataRepository.mockup
-
+// Need to paste the thing into a NewsRepository, so this file is up for deletion
 import com.sebbia.news.Article
 class News
     val news = listOf(

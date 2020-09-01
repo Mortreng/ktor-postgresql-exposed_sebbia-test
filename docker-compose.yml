@@ -1,0 +1,16 @@
+version: '3'
+services:
+  newsDb:
+    restart: always
+    image: "postgres"
+    environment:
+      POSTGRES_USER: newuser
+      POSTGRES_PASSWORD: qwerty
+      POSTGRES_DB: newsfeed
+    volumes:
+      - database-data:/var/lib/postgresql/data/
+    ports:
+      - 5432:5432
+
+volumes:
+  database-data:
