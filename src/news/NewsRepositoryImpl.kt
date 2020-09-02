@@ -1,8 +1,20 @@
 package com.sebbia.news
 
+import com.sebbia.categories.CategoriesTable
 import com.sebbia.dataRepository.database.DatabaseService
-import com.sebbia.dataRepository.database.NewsTable
+import org.jetbrains.exposed.sql.Column
+import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.select
+
+object NewsTable : Table() {
+    val id: Column<Int> = integer("id").autoIncrement()
+    val title: Column<String> = text("name")
+    val date: Column<String> = varchar("date", 30)
+    val shortDescription: Column<String> = text("Short description")
+    val fullDescription: Column<String> = text("Full description")
+    val categoryId: Column<Int> = reference("id", CategoriesTable.id)
+    override val primaryKey = PrimaryKey(id)
+}
 
 class NewsRepositoryImpl(
     val databaseService: DatabaseService

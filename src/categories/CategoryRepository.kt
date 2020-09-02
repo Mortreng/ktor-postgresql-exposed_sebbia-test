@@ -1,6 +1,5 @@
 package com.sebbia.categories
 
-
 interface CategoryRepository {
     fun getList(): List<Category>
     fun insert(category: Category): Category

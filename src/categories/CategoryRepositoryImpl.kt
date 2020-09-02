@@ -1,8 +1,16 @@
 package com.sebbia.categories
 
-import com.sebbia.dataRepository.database.CategoriesTable
 import com.sebbia.dataRepository.database.DatabaseService
+import org.jetbrains.exposed.sql.Column
+import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.selectAll
+
+//Pretty self-explanatory, an object, which uses the "table" class from exposed library
+object CategoriesTable : Table() {
+    val id: Column<Int> = integer("id").autoIncrement()
+    val name: Column<String> = text("name")
+    override val primaryKey = PrimaryKey(id)
+}
 
 class CategoryRepositoryImpl(
     val databaseService: DatabaseService

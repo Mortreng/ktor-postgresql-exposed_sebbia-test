@@ -53,8 +53,6 @@ fun Application.module(testing: Boolean = false) {
     // Here we initialize our Services, to test features, i advise using mockups for testing purposes,
     // to do that change Impls to Mock Repositories
     val databaseService = DatabaseServiceImpl(
-        //note to yourself, get those parameters required for the db connection into a separate config file.
-        //storing them like that is asking for trouble in the future
         "jdbc:postgresql://${dbhost}:${dbport}/${database}",
         "org.postgresql.Driver",
         user,
@@ -90,11 +88,11 @@ fun Application.module(testing: Boolean = false) {
                         //if id is not provided, it will hit us with a StatusResponse, if page is not provided it will default to 0
                         val page = call.request.queryParameters["page"]?.toInt() ?: 0
                         val id = call.parameters["id"]?.toInt()
-                        val limit = call.parameters["limit"]?.toInt()?:
+                        val limit = call.parameters["limit"]?.toInt() ?: 1
                         if (id == null) {
                             call.respond(StatusResponse(code = 14, message = "id not found"))
                         } else {
-                            call.respond(ListResponse(code = 0, list = newsService.getNewsByCategory(id, page,limit = 1 )))
+                            call.respond(ListResponse(code = 0, list = newsService.getNewsByCategory(id, page, limit)))
                         }
                     }
                 }
