@@ -10,10 +10,9 @@ import com.fasterxml.jackson.databind.*
 import com.sebbia.categories.CategoriesService
 import com.sebbia.categories.CategoryRepositoryImpl
 import com.sebbia.dataRepository.database.DatabaseServiceImpl
-import com.sebbia.news.NewsRepositoryMock
+import com.sebbia.news.NewsRepositoryImpl
 import com.sebbia.news.NewsService
 import io.ktor.jackson.*
-import io.ktor.server.engine.*
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
@@ -61,8 +60,9 @@ fun Application.module(testing: Boolean = false) {
         user,
         password
     )
+    val newsRepository = NewsRepositoryImpl(databaseService)
     val categoryRepository = CategoryRepositoryImpl(databaseService)
-    val newsService = NewsService(NewsRepositoryMock())
+    val newsService = NewsService(newsRepository)
     val categoriesService = CategoriesService(categoryRepository)
 
 
@@ -90,10 +90,11 @@ fun Application.module(testing: Boolean = false) {
                         //if id is not provided, it will hit us with a StatusResponse, if page is not provided it will default to 0
                         val page = call.request.queryParameters["page"]?.toInt() ?: 0
                         val id = call.parameters["id"]?.toInt()
+                        val limit = call.parameters["limit"]?.toInt()?:
                         if (id == null) {
                             call.respond(StatusResponse(code = 14, message = "id not found"))
                         } else {
-                            call.respond(ListResponse(code = 0, list = newsService.getNewsByCategory(id, page)))
+                            call.respond(ListResponse(code = 0, list = newsService.getNewsByCategory(id, page,limit = 1 )))
                         }
                     }
                 }

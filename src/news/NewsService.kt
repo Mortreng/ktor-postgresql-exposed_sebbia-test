@@ -16,7 +16,7 @@ class NewsService(
     private val newsRepository: NewsRepository,
     private val defaultLimit: Int = 1
 ) {
-    fun getNewsByCategory(id: Int, page: Int): List<Article> = newsRepository.getNewsByCategory(id, page)
+    fun getNewsByCategory(id: Int, page: Int,limit: Int): List<Article> = newsRepository.getNewsByCategory(id, page,limit)
 
 
     fun getFullArticle(id: Int) = newsRepository.getFullArticle(id)

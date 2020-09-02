@@ -10,6 +10,15 @@ object CategoriesTable : Table() {
     override val primaryKey = PrimaryKey(id)
 }
 
+object NewsTable: Table(){
+    val id: Column<Int> = integer("id").autoIncrement()
+    val title: Column<String> = text ("name")
+    val date : Column<String> = varchar ("date", 30)
+    val shortDescription : Column<String> = text("Short description")
+    val fullDescription : Column<String> = text("Full description")
+    val categoryId : Column<Int> = reference("id", CategoriesTable.id)
+    override val primaryKey = PrimaryKey(id)
+}
 interface DatabaseService {
 
     fun <T> runWithTransaction(block: Transaction.() -> T): T
