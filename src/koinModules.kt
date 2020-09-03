@@ -12,7 +12,7 @@ import com.typesafe.config.ConfigFactory
 import io.ktor.config.*
 import org.koin.dsl.module
 
-val configurationData= HoconApplicationConfig(ConfigFactory.load())
+val configurationData = HoconApplicationConfig(ConfigFactory.load())
 
 
 val dbport: String = configurationData
@@ -27,20 +27,23 @@ val password: String = configurationData
     .property("db.password").getString()
 
 val databaseServiceModule = module {
-    single <DatabaseService> {DatabaseServiceImpl(
-        "jdbc:postgresql://${dbhost}:${dbport}/${database}",
-        "org.postgresql.Driver",
-        user,
-        password)}
+    single<DatabaseService> {
+        DatabaseServiceImpl(
+            "jdbc:postgresql://${dbhost}:${dbport}/${database}",
+            "org.postgresql.Driver",
+            user,
+            password
+        )
+    }
 }
 
-val categoryServiceModule = module{
-        single <CategoryRepository> {CategoryRepositoryImpl(get())}
-        single {CategoriesService(get())}
+val categoryServiceModule = module {
+    single<CategoryRepository> { CategoryRepositoryImpl(get()) }
+    single { CategoriesService(get()) }
 }
-val newsServiceModule = module{
-    single <NewsRepository> {NewsRepositoryImpl(get())}
-    single {NewsService(get())}
+val newsServiceModule = module {
+    single<NewsRepository> { NewsRepositoryImpl(get()) }
+    single { NewsService(get()) }
 }
 
 

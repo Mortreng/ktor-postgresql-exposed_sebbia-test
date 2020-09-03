@@ -8,8 +8,10 @@ import org.slf4j.event.*
 import io.ktor.routing.*
 import com.fasterxml.jackson.databind.*
 import com.sebbia.categories.CategoriesService
+import com.sebbia.dataRepository.database.DatabaseService
 import com.sebbia.news.NewsService
 import io.ktor.jackson.*
+import org.flywaydb.core.Flyway
 import org.koin.ktor.ext.Koin
 import org.koin.ktor.ext.inject
 import org.koin.logger.slf4jLogger
@@ -41,15 +43,16 @@ fun Application.module(testing: Boolean = false) {
 
     install(Koin) {
         slf4jLogger()
-        modules(categoryServiceModule, databaseServiceModule)
-        modules(newsServiceModule, databaseServiceModule)
+        modules(categoryServiceModule,newsServiceModule, databaseServiceModule)
     }
 
     // Here we initialize our Services, to test features, i advise using mockups for testing purposes,
     // to do that change Impls to Mock Repositories
+    val databaseService: DatabaseService by inject()
     val newsService : NewsService by inject()
     val categoriesService : CategoriesService by inject()
 
+    databaseService.databaseMigration()
 
     routing {
         route("v1") {
