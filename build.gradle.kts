@@ -37,6 +37,7 @@ dependencies {
     implementation("org.postgresql:postgresql:42.2.2")
     implementation ("org.koin:koin-ktor:$koin_version")
     implementation("org.koin:koin-logger-slf4j:$koin_version")
+    implementation("org.flywaydb:flyway-core:6.5.5")
 }
 
 kotlin.sourceSets["main"].kotlin.srcDirs("src")
