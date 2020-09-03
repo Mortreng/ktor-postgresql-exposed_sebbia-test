@@ -4,6 +4,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 val ktor_version: String by project
 val kotlin_version: String by project
 val logback_version: String by project
+val koin_version: String by project
 
 plugins {
     application
@@ -34,6 +35,8 @@ dependencies {
     implementation("org.jetbrains.exposed", "exposed-dao", "0.24.1")
     implementation("org.jetbrains.exposed", "exposed-jdbc", "0.24.1")
     implementation("org.postgresql:postgresql:42.2.2")
+    implementation ("org.koin:koin-ktor:$koin_version")
+    implementation("org.koin:koin-logger-slf4j:$koin_version")
 }
 
 kotlin.sourceSets["main"].kotlin.srcDirs("src")

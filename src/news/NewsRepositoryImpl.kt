@@ -8,11 +8,11 @@ import org.jetbrains.exposed.sql.select
 
 object NewsTable : Table() {
     val id: Column<Int> = integer("id").autoIncrement()
-    val title: Column<String> = text("name")
+    val title: Column<String> = text("title")
     val date: Column<String> = varchar("date", 30)
-    val shortDescription: Column<String> = text("Short description")
-    val fullDescription: Column<String> = text("Full description")
-    val categoryId: Column<Int> = reference("id", CategoriesTable.id)
+    val shortDescription: Column<String> = text("short_description")
+    val fullDescription: Column<String> = text("full_description")
+    val categoryId: Column<Int> = reference("category_id", CategoriesTable.id)
     override val primaryKey = PrimaryKey(id)
 }
 

@@ -13,8 +13,7 @@ data class Article(
 )
 
 class NewsService(
-    private val newsRepository: NewsRepository,
-    private val defaultLimit: Int = 1
+    private val newsRepository: NewsRepository
 ) {
     fun getNewsByCategory(id: Int, page: Int, limit: Int): List<Article> =
         newsRepository.getNewsByCategory(id, page, limit)

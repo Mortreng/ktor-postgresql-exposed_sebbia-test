@@ -8,11 +8,11 @@ import org.slf4j.event.*
 import io.ktor.routing.*
 import com.fasterxml.jackson.databind.*
 import com.sebbia.categories.CategoriesService
-import com.sebbia.categories.CategoryRepositoryImpl
-import com.sebbia.dataRepository.database.DatabaseServiceImpl
-import com.sebbia.news.NewsRepositoryImpl
 import com.sebbia.news.NewsService
 import io.ktor.jackson.*
+import org.koin.ktor.ext.Koin
+import org.koin.ktor.ext.inject
+import org.koin.logger.slf4jLogger
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
@@ -39,29 +39,16 @@ fun Application.module(testing: Boolean = false) {
         }
     }
 
-    val dbport: String = environment.config
-        .property("db.port").getString()
-    val dbhost: String = environment.config
-        .property("db.host").getString()
-    val database: String = environment.config
-        .property("db.database").getString()
-    val user: String = environment.config
-        .property("db.user").getString()
-    val password: String = environment.config
-        .property("db.password").getString()
+    install(Koin) {
+        slf4jLogger()
+        modules(categoryServiceModule, databaseServiceModule)
+        modules(newsServiceModule, databaseServiceModule)
+    }
 
     // Here we initialize our Services, to test features, i advise using mockups for testing purposes,
     // to do that change Impls to Mock Repositories
-    val databaseService = DatabaseServiceImpl(
-        "jdbc:postgresql://${dbhost}:${dbport}/${database}",
-        "org.postgresql.Driver",
-        user,
-        password
-    )
-    val newsRepository = NewsRepositoryImpl(databaseService)
-    val categoryRepository = CategoryRepositoryImpl(databaseService)
-    val newsService = NewsService(newsRepository)
-    val categoriesService = CategoriesService(categoryRepository)
+    val newsService : NewsService by inject()
+    val categoriesService : CategoriesService by inject()
 
 
     routing {
